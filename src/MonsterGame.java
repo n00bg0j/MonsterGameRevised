@@ -6,14 +6,16 @@ public class MonsterGame {
 	// Game State
 	GameObject[][] gameState = new GameObject[10][10];
 	// list of living monsters
-	ArrayList<GameObject> monstersLeft;
-	// list of living allies
-	ArrayList<GameObject> alliesLeft;
+	ArrayList<GameObject> monstersLeft = new ArrayList<GameObject>();
+	// list of allies
+	ArrayList<GameObject> alliesLeft = new ArrayList<GameObject>();
+	// list of gameObjects
+	ArrayList<GameObject> gameObjects = new ArrayList<GameObject>();
 	
 	// let's use the default constructor
 	
 	// generate the map
-	public GameObject[][] generateMap() {
+	public void generateMap() {
 		for (int i = 0; i < gameState.length; i++) {
 			for (int j = 0; j < gameState[i].length; j++) {
 				// randomly generate walls
@@ -25,15 +27,15 @@ public class MonsterGame {
 				// randomly generate allies
 				int numAllies = RandIntGen.randInt(5, 10);
 				GenerateObject(numAllies, "Ally");
-				// add monsters to the game state
-				// add walls to the game state
-				// add allies to the game state
 			}
 		}
-		return gameState;
+	}
+	
+	public void createPlayer(String name, String job) {
+		this.player = new Player(this, name, job);
 	}
 
-	private GameObject GenerateObject(int numObjects, String Type) {
+	public void GenerateObject(int numObjects, String Type) {
 		for (int i = 0; i < numObjects; i++) {
 			int x = RandIntGen.randInt(0, 9);
 			int y = RandIntGen.randInt(0, 9);
@@ -44,20 +46,38 @@ public class MonsterGame {
 			}
 			if (Type.equalsIgnoreCase("Wall")) {
 				GameObject newWall = new Wall(x, y);
-				monstersLeft.add(newWall);
+				gameObjects.add(newWall);
 				gameState[x][y] = newWall;
+				System.out.println("asdf");
 			} else if (Type.equalsIgnoreCase("Monster")) {
 				GameObject newMonster = new Monster(x, y);
 				monstersLeft.add(newMonster);
+				gameObjects.add(newMonster);
 				gameState[x][y] = newMonster;
+				System.out.println("asdasdasf");
 			} else if (Type.equalsIgnoreCase("Ally")) {
 				GameObject newAlly = new Ally(x, y);
-				monstersLeft.add(newAlly);
-				gameState[x][y] = newAlly;				
+				alliesLeft.add(newAlly);
+				gameObjects.add(newAlly);
+				gameState[x][y] = newAlly;
+				System.out.println("1234");
 			} else {
 				System.out.println("You fucked up");
 			}
-
 		}
+	}
+
+	@Override
+	public String toString() {
+		String result = "";
+		for (int i = 0; i < gameState.length; i++) {
+			for (int j = 0; j < gameState.length; j++)
+				if (gameState[i][j] == null)
+					result += "[ ]";
+				else
+					result += "[" + gameState[i][j].type + "]";
+			result += "\n";
+		}
+		return result;
 	}
 }
