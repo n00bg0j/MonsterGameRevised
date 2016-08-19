@@ -16,13 +16,12 @@ public class Player extends GameObject {
 		this.name = name;
 		this.HP = RandIntGen.randInt(1000, 1500);
 		this.MP = RandIntGen.randInt(150, 200);
-		this.type = "Player";
+		this.type = "P";
 		generateSkillSet(Class);
 		int x = RandIntGen.randInt(0, 9);
 		int y = RandIntGen.randInt(0, 9);
 		this.pos[0] = x;
 		this.pos[1] = y;
-		this.type = "P";
 	}
 	
 	public void Move(MonsterGame game, String direction) {
@@ -41,8 +40,12 @@ public class Player extends GameObject {
 		} else {
 			System.out.println("Invalid Move");
 		}
-		game.gameState[oldX][oldY] = null;
-		game.gameState[newX][newY] = this;
+		if (game.gameState[newX][newY].type.equalsIgnoreCase(" ")) {
+			game.gameState[oldX][oldY] = new Path(oldX, oldY);
+			game.gameState[newX][newY] = game.player;
+		} else {
+			System.out.println("Path is blocked");
+		}
 	}
 	
 	public void Attack(MonsterGame game, String direction, String Attack) {
@@ -70,8 +73,8 @@ public class Player extends GameObject {
 							int oldY = game.player.pos[1];
 							int newX = i;
 							int newY = j;
-							game.gameState[oldX][oldY] = null;
-							game.gameState[newX][newY] = this;
+							game.gameState[oldX][oldY] = new Path(oldX, oldY);
+							game.gameState[newX][newY] = game.player;
 						} else {
 							m.HP -= baseDMG;
 						}
@@ -89,8 +92,8 @@ public class Player extends GameObject {
 							int oldY = game.player.pos[1];
 							int newX = i;
 							int newY = j;
-							game.gameState[oldX][oldY] = null;
-							game.gameState[newX][newY] = this;
+							game.gameState[oldX][oldY] = new Path(oldX, oldY);
+							game.gameState[newX][newY] = game.player;
 						} else {
 							m.HP -= dmgList.get(Attack);
 						}
