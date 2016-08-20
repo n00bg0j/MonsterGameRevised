@@ -31,8 +31,8 @@ public class Run {
 				System.out.println(newGame.player.HP);
 			} else if (move.equalsIgnoreCase("Skills")) {
 				newGame.player.showSkills();
-			} else if (move.equalsIgnoreCase("Move")) {
-				newGame.player.Move(newGame, "Down");
+			} else if (input[0].equalsIgnoreCase("Move")) {
+				newGame.player.Move(newGame, input[1]);
 			} else if (input[0].equalsIgnoreCase("Attack")) {
 				newGame.player.Attack(newGame, input[1], "Attack");
 			} else if (newGame.player.skillSet.containsKey(input[0])) {

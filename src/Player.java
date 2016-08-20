@@ -29,20 +29,22 @@ public class Player extends GameObject {
 		int oldY = game.player.pos[1];
 		int newX = game.player.pos[0];
 		int newY = game.player.pos[1];
-		if (direction.equalsIgnoreCase("Up")) {
+		if (direction.equalsIgnoreCase("Right")) {
 			newY += 1;
-		} else if (direction.equalsIgnoreCase("Down")) {
-			newY += -1;	
 		} else if (direction.equalsIgnoreCase("Left")) {
-			newX += -1;			
-		} else if (direction.equalsIgnoreCase("Right")) {
+			newY -= 1;	
+		} else if (direction.equalsIgnoreCase("Down")) {
 			newX += 1;			
+		} else if (direction.equalsIgnoreCase("Up")) {
+			newX -= 1;			
 		} else {
 			System.out.println("Invalid Move");
 		}
 		if (game.gameState[newX][newY].type.equalsIgnoreCase(" ")) {
 			game.gameState[oldX][oldY] = new Path(oldX, oldY);
 			game.gameState[newX][newY] = game.player;
+			game.player.pos[0] = newX;
+			game.player.pos[1] = newY;
 		} else {
 			System.out.println("Path is blocked");
 		}
@@ -68,7 +70,7 @@ public class Player extends GameObject {
 				for (GameObject m : game.gameObjects) {
 					if (m.pos[0] == i && m.pos[1] == j) {
 						// attack it
-						if (m.HP - dmgList.get(Attack) < 0) {
+						if (m.HP - game.player.baseDMG < 0) {
 							int oldX = game.player.pos[0];
 							int oldY = game.player.pos[1];
 							int newX = i;
